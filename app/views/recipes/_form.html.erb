@@ -1,0 +1,22 @@
+<%= simple_nested_form_for @recipe do |f| %>
+	<%= f.input :title, label: 'Title : ', autofocus: true %> <br/>
+
+	<%= f.input :description, label: 'Description : ' %> <br/>
+
+	<%= f.input :image, label: 'Image : ' %> <br/>
+
+	<h2>Ingredients</h2>
+	<%= f.fields_for :ingredients do |ingredient| %>
+		<%= ingredient.text_field :name %>
+		<%= ingredient.link_to_remove "Remove" %>
+	<% end %>
+	<%= f.link_to_add "Add Ingredient", :ingredients %>
+
+	<h2>Directions</h2>
+	<%= f.fields_for :directions do |direction| %>
+		<%= direction.text_area :step %>
+		<%= direction.link_to_remove "Remove" %>
+	<% end %>
+	<%= f.link_to_add "Add Direction", :directions %> <br/>
+	<%= f.submit %>
+<% end %>

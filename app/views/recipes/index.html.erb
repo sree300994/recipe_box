@@ -1,0 +1,20 @@
+<h2>Listing Recipes</h2>
+
+<% if @recipes.empty? %>
+	<p>No Recipes Found</p>
+<% else %>
+	<ul>
+		<% @recipes.each do |recipe| %>
+			<li>
+				<p>IMAGE : <%= link_to recipe do %>
+						<%= image_tag recipe.image.url %>
+					<% end %>
+				</p>
+				<p>TITLE : <%= recipe.title %></p>
+				<p>DESCRIPTION : <%= recipe.description %></p>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<%= link_to "Add Recipe", new_recipe_path %>
