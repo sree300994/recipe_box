@@ -4,6 +4,7 @@
 
 <p>DESCRIPTION : <%= @recipe.description %></p>
 <p>IMAGE : <%= image_tag @recipe.image.url %> </p>
+<p>Submitted by : <%= @recipe.user.email %></p>
 <p>INGREDIENTS : 
 	<ul>
 		<% @recipe.ingredients.each do |ingredient| %>
