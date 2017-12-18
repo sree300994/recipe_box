@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Check validations for while submitting
+	</title>
+</head>
+<body>
+
+<h2>Register for an event</h2>
+
+<form action="./submission.html" id="registrationForm">
+
+<label for="name"> Name : </label> <br/>
+<input type="text" id="name" name="name" />
+<span id="nameError"> </span>
+<br/>
+
+<label for="mobile"> Mobile : </label> <br/>
+<input type="text" id="mobile" name="mobile" /> 
+<span id="mobileError"> </span>
+<br/>
+
+<label for="email"> Email : </label> <br/>
+<input type="text" id="email" name="email" /> 
+<span id="emailError"> </span>
+<br/>
+
+<input type="submit" value="register" />
+</form>
+
+<script>
+
+var errors = {
+	name: false,
+	email: false,
+	mobile: false 
+}
+
+var formHandle = document.getElementById('registrationForm');
+var nameHandle = document.querySelector('#name');
+var mobileHandle = document.querySelector('#mobile');
+var emailHandle = document.getElementById('email');
+
+var nameErrorHandle = document.getElementById('nameError');
+var mobileErrorHandle = document.getElementById('mobileError');
+var emailErrorHandle = document.getElementById('emailError');
+
+ function validateName(){
+ 	if(nameHandle.value == ""){
+ 		nameErrorHandle.innerHTML = "can't be blank";
+ 		errors.name = false;
+ 	} else {
+ 		nameErrorHandle.innerHTML = "";
+ 		errors.name = true;
+ 	}
+ }
+
+
+
+ function validateEmail(){
+ 	if(emailHandle.value == ""){
+ 		emailErrorHandle.innerHTML = "can't be blank";
+ 		errors.email = false;
+ 	} else {
+ 		emailErrorHandle.innerHTML = "";
+ 		errors.email = true;
+ 	}
+ }
+
+ function validateMobile(){
+	if(mobileHandle.value == ""){
+ 		mobileErrorHandle.innerHTML = "can't be blank";
+ 		errors.mobile = false;
+ 	} else if(mobileHandle.value.length !== 10){
+ 		mobileErrorHandle.innerHTML = "wrong length, it should be 10";
+ 		errors.mobile = false;
+ 	} else {
+ 		emailErrorHandle.innerHTML = "";
+ 		errors.mobile = true;
+ 	}
+ }
+
+
+formHandle.addEventListener('submit', function(e){
+	validateName();
+	validateEmail();
+	validateMobile();
+
+	if(Object.values(errors).includes(false)){
+		e.preventDefault();
+		console.log("errors exist");
+	}
+}, false);
+</script>
+</body>
+</html>

@@ -3,15 +3,90 @@
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="form-input">
     <%= f.input :email, required: true, autofocus: true %>
+    <span id="emailError"></span>
+  </div>
+
+  <div class="form-input">
     <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+    <span id="passwordError"></span>
+  </div>
+
+  <div class="form-input">
     <%= f.input :password_confirmation, required: true %>
+    <span id="passwordConfirmationError"></span>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, "Sign up" %>
   </div>
 <% end %>
+
+<script>
+	var emailFormatter = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+	var passwordFormatter = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+
+	var emailHandle = document.getElementById('user_email');
+	var passwordHandle = document.getElementById('user_password');
+	var passwordConfirmationHandle = document.getElementById('user_password_confirmation');
+
+	var emailErrorHandle = document.getElementById('emailError');
+	var passwordErrorHandle = document.getElementById('passwordError');
+	var passwordConfirmationErrorHandle = document.getElementById('passwordConfirmationError');
+
+	function resetErrorMsg(errorField) {
+		errorField.innerHTML = "";
+	}
+
+	emailHandle.addEventListener('blur',function(){
+		if (emailHandle.value== "") {
+			emailErrorHandle.innerHTML = "Can't be blank";
+		} else if (!emailFormatter.test(emailHandle.value)){
+			emailErrorHandle.innerHTML = "Should be a valid Format"
+		} else {
+			resetErrorMsg(emailErrorHandle);
+		}
+	}, false);
+
+	passwordHandle.addEventListener('blur', function(){
+		if (passwordHandle.value== "") {
+			passwordErrorHandle.innerHTML = "Can't be blank";
+		} else if (!passwordFormatter.test(passwordHandle.value)) {
+			passwordErrorHandle.innerHTML = "Ensure you have 1 upper case, 1 lower case and 1 number";
+		} else if (passwordHandle.value.length < 6) {
+			passwordErrorHandle.innerHTML = "Should be minimum 6 digits";
+		} else {
+			resetErrorMsg(passwordErrorHandle);
+		}
+	}, false);
+
+	passwordHandle.addEventListener('mouseover', function(){
+		passwordHandle.type = "text";
+	}, false)
+
+	passwordHandle.addEventListener('mouseout', function(){
+		passwordHandle.type = "password";
+	}, false)
+
+	passwordConfirmationHandle.addEventListener('blur', function(){
+		if (passwordConfirmationHandle.value== "") {
+			passwordConfirmationErrorHandle.innerHTML = "Can't be blank";
+		} else if (passwordHandle.value !== passwordConfirmationHandle.value) {
+			passwordConfirmationErrorHandle.innerHTML = "Password doesn't match";
+		} else {
+			resetErrorMsg(passwordConfirmationErrorHandle);
+		}
+	}, false);
+
+	passwordConfirmationHandle.addEventListener('mouseover', function(){
+		passwordConfirmationHandle.type = "text";
+	}, false)
+
+	passwordConfirmationHandle.addEventListener('mouseout', function(){
+		passwordConfirmationHandle.type = "password"
+	}, false)
+
+</script>
 
 <%= render "devise/shared/links" %>
